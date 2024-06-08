@@ -6,7 +6,7 @@
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
 
-    <color name="green_primary">#4CAF50</color> <!-- A vibrant mid-tone green -->
+    <color name="green_primary">#12A042</color> <!-- A vibrant mid-tone green -->
     <color name="green_dark">#388E3C</color> <!-- A darker green for contrast -->
     <color name="green_light">#C8E6C9</color> <!-- A light green for backgrounds -->
     <color name="blue_primary">#2196F3</color> <!-- A mid-tone blue for accents -->
