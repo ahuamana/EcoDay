@@ -24,7 +24,7 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
             })
         }
         composable<ScreensRoot.DashboardScreen> {
-            DashboardScreen()
+            DashboardScreen(modifier = Modifier.fillMaxSize())
         }
 
     }
