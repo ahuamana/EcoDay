@@ -9,6 +9,7 @@ lifecycleRuntimeKtx = "2.8.1"
 activityCompose = "1.9.0"
 composeBom = "2024.05.00"
 lottieCompose = "6.4.1"
+magictablayout = "1.0.3"
 navigationCompose = "2.8.0-beta02"
 kotlinSerializationJson = "1.6.3"
 
@@ -34,6 +35,7 @@ lottie-compose = { module = "com.airbnb.android:lottie-compose", version.ref = "
 #Navigation Safe with kotlin serialization
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
 kotlin-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinSerializationJson" }
+magictablayout = { module = "com.github.iamageo:MagicTabLayout", version.ref = "magictablayout" }
 
 
 [plugins]

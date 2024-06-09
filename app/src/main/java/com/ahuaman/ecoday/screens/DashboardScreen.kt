@@ -6,12 +6,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -22,6 +24,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -30,6 +34,7 @@ import androidx.navigation.compose.rememberNavController
 import com.ahuaman.ecoday.R
 import kotlinx.serialization.Serializable
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DashboardScreen(modifier: Modifier = Modifier) {
     var selectedItem by remember { mutableIntStateOf(0) }
@@ -37,6 +42,15 @@ fun DashboardScreen(modifier: Modifier = Modifier) {
     val navController = rememberNavController()
 
     Scaffold(
+        topBar = {
+            TopAppBar(title = {
+                Text(
+                    text = items[selectedItem].title,
+                    style = MaterialTheme.typography.headlineMedium,
+                    fontFamily = FontFamily(Font(R.font.opensans_bold)))
+            })
+        },
+
         bottomBar = {
 
             val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -68,13 +82,13 @@ fun DashboardScreen(modifier: Modifier = Modifier) {
         content = { innerPadding ->
             NavHost(navController = navController, startDestination = ScreensDashboard.Home, modifier = modifier.padding(innerPadding)) {
                 composable<ScreensDashboard.Home> {
-                    HomeScreen()
+                    HomeScreen(modifier = Modifier.fillMaxSize())
                 }
                 composable<ScreensDashboard.Guide>{
-                    GuideScreen()
+                    GuideScreen(modifier = Modifier.fillMaxSize())
                 }
                 composable<ScreensDashboard.Notifications>{
-                    NotificationScreen()
+                    NotificationScreen(modifier = Modifier.fillMaxSize())
                 }
             }
         }

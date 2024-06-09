@@ -74,4 +74,6 @@ dependencies {
     //Navigation Safe
     implementation(libs.androidx.navigation.compose)
     implementation(libs.kotlin.serialization.json)
+    implementation (libs.magictablayout)
+
 }
