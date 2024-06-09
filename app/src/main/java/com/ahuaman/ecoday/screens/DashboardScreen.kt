@@ -68,16 +68,13 @@ fun DashboardScreen(modifier: Modifier = Modifier) {
         content = { innerPadding ->
             NavHost(navController = navController, startDestination = ScreensDashboard.Home, modifier = modifier.padding(innerPadding)) {
                 composable<ScreensDashboard.Home> {
-                    val randomNumber = (0..100).random()
-                    Text(text = "Home $randomNumber")
+                    HomeScreen()
                 }
                 composable<ScreensDashboard.Guide>{
-                    val randomNumber = (0..100).random()
-                    Text(text = "Guide $randomNumber")
+                    GuideScreen()
                 }
                 composable<ScreensDashboard.Notifications>{
-                    val randomNumber = (0..100).random()
-                    Text(text = "Notifications $randomNumber")
+                    NotificationScreen()
                 }
             }
         }
