@@ -86,8 +86,8 @@ fun TabRow() {
                 Tab(
                     selected = index == selectedTabIndex,
                     onClick = { selectedTabIndex = index },
-                    text = { Text(text = tabItem.title, color = if(isSelected) colorResource(id = R.color.green_primary) else Color.Black) },
-                    icon = { Icon( painter = resource, contentDescription = tabItem.title, tint = if(isSelected) colorResource(id = R.color.green_primary) else Color.Black) }
+                    text = { Text(text = tabItem.title, color = if(isSelected) colorResource(id = R.color.green_primary) else Color.Gray) },
+                    icon = { Icon( painter = resource, contentDescription = tabItem.title, tint = if(isSelected) colorResource(id = R.color.green_primary) else Color.Gray) }
                 )
             }
         }
