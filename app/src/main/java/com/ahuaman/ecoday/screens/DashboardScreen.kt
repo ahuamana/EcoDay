@@ -3,12 +3,14 @@ package com.ahuaman.ecoday.screens
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -21,57 +23,77 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
 import com.ahuaman.ecoday.R
+import kotlinx.serialization.Serializable
 
 @Composable
 fun DashboardScreen(modifier: Modifier = Modifier) {
     var selectedItem by remember { mutableIntStateOf(0) }
     val items = ScreensDashboard.items
+    val navController = rememberNavController()
 
-    Box(modifier = modifier.fillMaxSize()) {
+    Scaffold(
+        bottomBar = {
 
-        when (selectedItem) {
-            0 -> {
-
-                Text(text = "Songs", modifier = Modifier.fillMaxSize())
+            val navBackStackEntry by navController.currentBackStackEntryAsState()
+            val currentDestination = navBackStackEntry?.destination
+            val selectedFromDestination = items.indexOfFirst { menu ->
+                (menu.javaClass.simpleName == currentDestination?.route?.split(".")?.last())
             }
-            1 -> {
-                Text(text = "Artists")
+
+            NavigationBar{
+                items.forEachIndexed { index, item ->
+                    val isSelected = if (selectedFromDestination == -1) index == 0 else index == selectedFromDestination
+                    val textColor = if (isSelected) { colorResource(id = R.color.green_primary) } else { Color.Gray }
+                    val iconColor = if (isSelected) colorResource(id = R.color.green_primary) else Color.Gray
+
+                    NavigationBarItem(
+                        icon = { Icon(painterResource(id = item.icon), contentDescription = item.title, tint = iconColor) },
+                        label = { Text(item.title, color = textColor) },
+                        selected = isSelected,
+                        onClick = {
+                            //avoid select the same item
+                            if (isSelected) return@NavigationBarItem
+                            selectedItem = index
+                            navController.navigate(item)
+                        }
+                    )
+                }
             }
-            2 -> {
-                Text(text = "Playlists")
+        },
+        content = { innerPadding ->
+            NavHost(navController = navController, startDestination = ScreensDashboard.Home, modifier = modifier.padding(innerPadding)) {
+                composable<ScreensDashboard.Home> {
+                    val randomNumber = (0..100).random()
+                    Text(text = "Home $randomNumber")
+                }
+                composable<ScreensDashboard.Guide>{
+                    val randomNumber = (0..100).random()
+                    Text(text = "Guide $randomNumber")
+                }
+                composable<ScreensDashboard.Notifications>{
+                    val randomNumber = (0..100).random()
+                    Text(text = "Notifications $randomNumber")
+                }
             }
         }
-
-
-        NavigationBar(modifier = Modifier.align(Alignment.BottomCenter)){
-            items.forEachIndexed { index, item ->
-
-                val isSelected = selectedItem == index
-                val textColor = if (isSelected) { colorResource(id = R.color.green_primary) } else { Color.Gray }
-                val iconColor = if (isSelected) colorResource(id = R.color.green_primary) else Color.Gray
-
-                NavigationBarItem(
-                    icon = { Icon(painterResource(id = item.icon), contentDescription = item.title, tint = iconColor) },
-                    label = { Text(item.title, color = textColor) },
-                    selected = isSelected,
-                    onClick = { selectedItem = index }
-                )
-            }
-        }
-
-    }
+    )
 }
 
-sealed class ScreensDashboard(val route: String, val title: String, @DrawableRes val icon: Int) {
+@Serializable
+sealed class ScreensDashboard(val title: String, @DrawableRes val icon: Int) {
+    @Serializable
     data object Home :
-        ScreensDashboard(route = "Inicio", title = "Inicio", icon = R.drawable.ic_home_filled)
-
+        ScreensDashboard(title = "Inicio", icon = R.drawable.ic_home_filled)
+    @Serializable
     data object Guide :
-        ScreensDashboard(route = "Guía", title = "Guía", icon = R.drawable.ic_guide_filled)
-
+        ScreensDashboard( title = "Guía", icon = R.drawable.ic_guide_filled)
+    @Serializable
     data object Notifications : ScreensDashboard(
-        route = "Notificaciones",
         title = "Notificaciones",
         icon = R.drawable.ic_notification_filled
     )
