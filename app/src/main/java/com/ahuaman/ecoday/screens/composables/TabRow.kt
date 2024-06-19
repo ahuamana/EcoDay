@@ -32,7 +32,10 @@ import androidx.compose.ui.unit.dp
 import com.ahuaman.ecoday.R
 
 @Composable
-fun TabRow() {
+fun TabRow(
+    modifier: Modifier = Modifier,
+    onClickMoreInfo: () -> Unit
+) {
     var selectedTabIndex by remember { mutableIntStateOf(0) }
 
     val tabItem = listOf(
@@ -96,7 +99,10 @@ fun TabRow() {
                                description = "Materiales que pueden ser procesados y reutilizados, ayudando a reducir el impacto ambiental.",
                                days = "Martes - Jueves - Sabado",
                                time = "8:00 am - 6:00 pm",
-                               iconWaste = R.drawable.ic_recycle_trash
+                               iconWaste = R.drawable.ic_recycle_trash,
+                                 onClickMoreInfo = {
+                                     onClickMoreInfo()
+                                 }
                            )
                            Spacer(modifier = Modifier.height(28.dp))
 
@@ -106,7 +112,10 @@ fun TabRow() {
                                description = "Residuos biodegradables que pueden convertirse en compost para enriquecer el suelo y las plantas.",
                                days = "Lunes - Miércoles - Viernes",
                                time = "8:00 am - 6:00 pm",
-                                 iconWaste = R.drawable.ic_organic_trash
+                               iconWaste = R.drawable.ic_organic_trash,
+                               onClickMoreInfo = {
+                                   onClickMoreInfo()
+                               }
                            )
 
                            Spacer(modifier = Modifier.height(28.dp))
@@ -117,7 +126,10 @@ fun TabRow() {
                                description = "Residuos que no pueden ser reciclados y deben ser eliminados de forma segura.",
                                days = "Martes - Jueves - Sábado",
                                time = "8:00 am - 6:00 pm",
-                                 iconWaste = R.drawable.ic_disposable_trash
+                                 iconWaste = R.drawable.ic_disposable_trash,
+                                 onClickMoreInfo = {
+                                     onClickMoreInfo()
+                                 }
                            )
                        }
                     }

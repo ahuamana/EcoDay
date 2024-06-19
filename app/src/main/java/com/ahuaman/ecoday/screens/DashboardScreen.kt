@@ -36,7 +36,7 @@ import kotlinx.serialization.Serializable
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DashboardScreen(modifier: Modifier = Modifier) {
+fun DashboardScreen(modifier: Modifier = Modifier, onClickMoreInfo: () -> Unit) {
     var selectedItem by remember { mutableIntStateOf(0) }
     val items = ScreensDashboard.items
     val navController = rememberNavController()
@@ -85,7 +85,9 @@ fun DashboardScreen(modifier: Modifier = Modifier) {
                     HomeScreen(modifier = Modifier.fillMaxSize())
                 }
                 composable<ScreensDashboard.Guide>{
-                    GuideScreen(modifier = Modifier.fillMaxSize())
+                    GuideScreen(modifier = Modifier.fillMaxSize(), onClickMoreInfo = {
+                        onClickMoreInfo()
+                    })
                 }
                 composable<ScreensDashboard.Notifications>{
                     NotificationScreen(modifier = Modifier.fillMaxSize())
@@ -118,5 +120,5 @@ sealed class ScreensDashboard(val title: String, @DrawableRes val icon: Int) {
 @Preview
 @Composable
 private fun DashBoardScreenPrev() {
-    DashboardScreen()
+    DashboardScreen(modifier = Modifier.fillMaxSize(), onClickMoreInfo = {})
 }

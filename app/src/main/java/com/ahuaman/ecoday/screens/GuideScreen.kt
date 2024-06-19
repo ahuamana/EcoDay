@@ -7,9 +7,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.ahuaman.ecoday.screens.composables.TabRow
 
 @Composable
-fun GuideScreen(modifier: Modifier = Modifier) {
+fun GuideScreen(
+    modifier: Modifier = Modifier,
+    onClickMoreInfo: () -> Unit
+    ) {
     Column(modifier = modifier) {
-        TabRow()
+        TabRow(onClickMoreInfo = onClickMoreInfo)
     }
 }
 
@@ -17,5 +20,5 @@ fun GuideScreen(modifier: Modifier = Modifier) {
 @Preview
 @Composable
 private fun GuideScreenPrev() {
-    GuideScreen()
+    GuideScreen(onClickMoreInfo = {})
 }

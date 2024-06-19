@@ -20,6 +20,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -31,6 +32,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ahuaman.ecoday.R
+import com.ahuaman.ecoday.utils.openUrlIntent
 
 @Composable
 fun ItemWaste(
@@ -41,6 +43,7 @@ fun ItemWaste(
     description: String,
     days: String,
     time: String,
+    onClickMoreInfo: () -> Unit
               ) {
     Column(modifier = modifier
         .fillMaxWidth()
@@ -48,7 +51,7 @@ fun ItemWaste(
         Text(text = name, style = MaterialTheme.typography.titleMedium, color = colorResource(id = colorTitle))
         Text(text = description, fontSize = 14.sp)
         Spacer(modifier = Modifier.height(12.dp))
-        ItemDays(days = days , time = time, modifier = Modifier.padding(top = 8.dp), icon = iconWaste)
+        ItemDays(days = days , time = time, modifier = Modifier.padding(top = 8.dp), icon = iconWaste, onClickMoreInfo = onClickMoreInfo)
         Spacer(modifier = Modifier.height(12.dp))
         HorizontalDivider(
             color = colorResource(id = colorTitle),
@@ -64,8 +67,11 @@ fun ItemDays(
     time: String,
     isVisibleHours: Boolean = false,
     isVisibleMoreInfo: Boolean = false,
-    icon: Int = R.drawable.ic_recycle_trash
+    icon: Int = R.drawable.ic_recycle_trash,
+    onClickMoreInfo: () -> Unit
 ) {
+    val context = LocalContext.current
+
     Row(modifier = modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
         Column {
 
@@ -84,7 +90,9 @@ fun ItemDays(
                 if(isVisibleHours) Text(text = time,fontSize = 12.sp, fontFamily = FontFamily(Font(R.font.opensans_regular)))
                 Spacer(modifier = Modifier.height(12.dp))
 
-                Button(onClick = { /*TODO*/ }) {
+                Button(onClick = {
+                    onClickMoreInfo()
+                }) {
                     UnderlinedText(text = stringResource(id = R.string.see_more))
                 }
 
@@ -119,6 +127,7 @@ private fun ItemWastePrev() {
         description = "Materiales que pueden ser procesados y reutilizados, ayudando a reducir el impacto ambiental.",
         days = "Lunes - Miércoles - Viernes",
         time = "8:00 am - 12:00 pm",
+        onClickMoreInfo = {}
     )
 }
 
@@ -128,5 +137,6 @@ private fun ItemDaysPrev() {
     ItemDays(
         days = "Lunes - Miércoles - Viernes",
         time = "8:00 am - 12:00 pm",
+        onClickMoreInfo = {}
     )
 }

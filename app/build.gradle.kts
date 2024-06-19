@@ -76,4 +76,8 @@ dependencies {
     implementation(libs.kotlin.serialization.json)
     implementation (libs.magictablayout)
 
+    //coil
+    implementation(libs.coil)
+
+
 }
