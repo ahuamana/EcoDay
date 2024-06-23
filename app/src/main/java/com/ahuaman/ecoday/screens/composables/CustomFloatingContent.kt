@@ -1,5 +1,9 @@
 package com.ahuaman.ecoday.screens.composables
 
+import android.net.Uri
+import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -11,17 +15,53 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.core.content.FileProvider
+import com.ahuaman.ecoday.BuildConfig
 import com.ahuaman.ecoday.R
+import com.ahuaman.ecoday.utils.createImageFile
+import com.ahuaman.ecoday.utils.checkCameraPermission
+import com.ahuaman.ecoday.utils.resizeAndCompressImage
+import com.ahuaman.ecoday.utils.toBase64
+import com.ahuaman.ecoday.utils.toBitmap
+import java.util.Objects
 
 @Composable
 fun CustomFloatingContent(
     onClickIdentifyTrash: () -> Unit
 ){
+
+    val context = LocalContext.current
+    val file = context.createImageFile()
+    val uri = FileProvider.getUriForFile(Objects.requireNonNull(context), BuildConfig.APPLICATION_ID + ".provider", file)
+
+    val cameraLauncher = rememberLauncherForActivityResult(contract = ActivityResultContracts.TakePicturePreview()) { bitmap ->
+        bitmap?.let { image->
+            //TODO: Send image to server to identify trash
+            //
+        }
+    }
+
+    val permissionLauncher = rememberLauncherForActivityResult(contract = ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
+        if (isGranted) {
+            //Handled case when permission is granted
+            cameraLauncher.launch(null)
+        } else {
+            //Handled case when permission is denied
+            Toast.makeText(context, "Permiso denegado", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+
 
 
 
@@ -32,7 +72,11 @@ fun CustomFloatingContent(
         Button(
             colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.green_primary)),
             onClick = {
-                onClickIdentifyTrash()
+                checkCameraPermission(context, onPermissionSuccess = {
+                    cameraLauncher.launch(null)
+                }, onFailPermission = {
+                    permissionLauncher.launch(android.Manifest.permission.CAMERA)
+                })
             }) {
             Row {
                 Text(stringResource(R.string.identify_trash_description_home_screen), style = MaterialTheme.typography.bodyMedium)
