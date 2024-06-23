@@ -2,10 +2,15 @@ package com.ahuaman.ecoday.screens
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -27,6 +32,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -49,6 +55,27 @@ fun DashboardScreen(modifier: Modifier = Modifier, onClickMoreInfo: () -> Unit) 
                     style = MaterialTheme.typography.headlineMedium,
                     fontFamily = FontFamily(Font(R.font.opensans_bold)))
             })
+        },
+
+        floatingActionButton = {
+            if(items[selectedItem] is ScreensDashboard.Home){
+                Box(
+                    modifier = Modifier
+                        .padding(16.dp)
+                ) {
+                    Button(
+                        colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.green_primary)),
+                        onClick = { /*TODO*/ }) {
+                        Row {
+                            Text("Identificar mi residuo", style = MaterialTheme.typography.bodyMedium)
+                            Spacer(modifier = Modifier.width(4.dp))
+                            Icon(painterResource(id = R.drawable.ic_camera_identify), contentDescription = "Favorite")
+                        }
+                    }
+
+                }
+            }
+
         },
 
         bottomBar = {
