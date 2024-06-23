@@ -14,7 +14,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.ahuaman.ecoday.navigation.NavigationRoot
 import com.ahuaman.ecoday.screens.OnboardingScreen
 import com.ahuaman.ecoday.ui.theme.EcoDayTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

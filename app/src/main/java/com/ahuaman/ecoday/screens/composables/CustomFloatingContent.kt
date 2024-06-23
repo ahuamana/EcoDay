@@ -1,5 +1,6 @@
 package com.ahuaman.ecoday.screens.composables
 
+import android.graphics.Bitmap
 import android.net.Uri
 import android.util.Log
 import android.widget.Toast
@@ -29,27 +30,26 @@ import androidx.compose.ui.unit.dp
 import androidx.core.content.FileProvider
 import com.ahuaman.ecoday.BuildConfig
 import com.ahuaman.ecoday.R
+import com.ahuaman.ecoday.domain.EDGenerativeModel
 import com.ahuaman.ecoday.utils.createImageFile
 import com.ahuaman.ecoday.utils.checkCameraPermission
 import com.ahuaman.ecoday.utils.resizeAndCompressImage
 import com.ahuaman.ecoday.utils.toBase64
 import com.ahuaman.ecoday.utils.toBitmap
+import com.google.ai.client.generativeai.GenerativeModel
+import com.google.ai.client.generativeai.type.content
 import java.util.Objects
 
 @Composable
 fun CustomFloatingContent(
-    onClickIdentifyTrash: () -> Unit
+    onNewPreviewCaptured: (Bitmap) -> Unit,
 ){
 
     val context = LocalContext.current
-    val file = context.createImageFile()
-    val uri = FileProvider.getUriForFile(Objects.requireNonNull(context), BuildConfig.APPLICATION_ID + ".provider", file)
 
     val cameraLauncher = rememberLauncherForActivityResult(contract = ActivityResultContracts.TakePicturePreview()) { bitmap ->
-        bitmap?.let { image->
-            //TODO: Send image to server to identify trash
-            //
-            Log.d("CustomFloatingContent", "Image captured: ${image.width}x${image.height}")
+        bitmap?.let { bitmapUri ->
+            onNewPreviewCaptured(bitmapUri)
         }
     }
 
@@ -62,9 +62,6 @@ fun CustomFloatingContent(
             Toast.makeText(context, "Permiso denegado", Toast.LENGTH_SHORT).show()
         }
     }
-
-
-
 
 
     Box(

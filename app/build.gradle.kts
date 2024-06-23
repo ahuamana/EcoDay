@@ -1,3 +1,6 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
@@ -5,6 +8,13 @@ plugins {
     //Kotlin Serialization for Safe Args
     alias(libs.plugins.kotlin.serialization.json)
 }
+
+
+val localProperties = Properties().apply {
+    FileInputStream(rootProject.file("local.properties")).use { load(it) }
+}
+
+val apiKey: String? = localProperties.getProperty("API_KEY")
 
 android {
     namespace = "com.ahuaman.ecoday"
@@ -24,6 +34,9 @@ android {
     }
 
     buildTypes {
+        debug {
+            buildConfigField("String", "API_KEY", "\"$apiKey\"")
+        }
         release {
             isMinifyEnabled = false
             proguardFiles(
@@ -83,6 +96,11 @@ dependencies {
     //AI Gemini
 
     implementation(libs.generativeai)
+
+    implementation (libs.lifecycle.viewmodel.compose)
+    implementation (libs.androidx.lifecycle.runtime.compose)
+    implementation(libs.androidx.hilt.navigation.compose)
+
 
 
 }

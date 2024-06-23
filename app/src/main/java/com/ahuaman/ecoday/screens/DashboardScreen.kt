@@ -1,16 +1,9 @@
 package com.ahuaman.ecoday.screens
 
+import android.graphics.Bitmap
 import androidx.annotation.DrawableRes
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -47,7 +40,7 @@ import kotlinx.serialization.Serializable
 fun DashboardScreen(
     modifier: Modifier = Modifier,
     onClickMoreInfo: () -> Unit,
-    onClickIdentifyTrash: () -> Unit
+    onIdentifyNewBitmap: (Bitmap) -> Unit
     ) {
     var selectedItem by remember { mutableIntStateOf(0) }
     val items = ScreensDashboard.items
@@ -65,7 +58,7 @@ fun DashboardScreen(
 
         floatingActionButton = {
             if(items[selectedItem] is ScreensDashboard.Home){
-                CustomFloatingContent(onClickIdentifyTrash = onClickIdentifyTrash)
+                CustomFloatingContent(onNewPreviewCaptured = onIdentifyNewBitmap)
             }
 
         },
@@ -139,5 +132,5 @@ sealed class ScreensDashboard(val title: String, @DrawableRes val icon: Int) {
 @Preview
 @Composable
 private fun DashBoardScreenPrev() {
-    DashboardScreen(modifier = Modifier.fillMaxSize(), onClickMoreInfo = {}, onClickIdentifyTrash = {})
+    DashboardScreen(modifier = Modifier.fillMaxSize(), onClickMoreInfo = {}, onIdentifyNewBitmap = {})
 }

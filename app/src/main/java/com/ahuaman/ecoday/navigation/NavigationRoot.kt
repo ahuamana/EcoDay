@@ -32,7 +32,7 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
             DashboardScreen(modifier = Modifier.fillMaxSize(), onClickMoreInfo = {
                 context.openUrlIntent("https://www.facebook.com/MunicipalidaddePichanaqui")
             },
-                onClickIdentifyTrash = {
+                onIdentifyNewBitmap = {
                     controller.navigate(ScreensRoot.IdentifyTrashScreen)
             })
         }
