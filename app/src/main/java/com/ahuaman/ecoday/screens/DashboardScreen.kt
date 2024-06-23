@@ -29,6 +29,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
@@ -38,11 +39,16 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.ahuaman.ecoday.R
+import com.ahuaman.ecoday.screens.composables.CustomFloatingContent
 import kotlinx.serialization.Serializable
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DashboardScreen(modifier: Modifier = Modifier, onClickMoreInfo: () -> Unit) {
+fun DashboardScreen(
+    modifier: Modifier = Modifier,
+    onClickMoreInfo: () -> Unit,
+    onClickIdentifyTrash: () -> Unit
+    ) {
     var selectedItem by remember { mutableIntStateOf(0) }
     val items = ScreensDashboard.items
     val navController = rememberNavController()
@@ -59,21 +65,7 @@ fun DashboardScreen(modifier: Modifier = Modifier, onClickMoreInfo: () -> Unit) 
 
         floatingActionButton = {
             if(items[selectedItem] is ScreensDashboard.Home){
-                Box(
-                    modifier = Modifier
-                        .padding(16.dp)
-                ) {
-                    Button(
-                        colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.green_primary)),
-                        onClick = { /*TODO*/ }) {
-                        Row {
-                            Text("Identificar mi residuo", style = MaterialTheme.typography.bodyMedium)
-                            Spacer(modifier = Modifier.width(4.dp))
-                            Icon(painterResource(id = R.drawable.ic_camera_identify), contentDescription = "Favorite")
-                        }
-                    }
-
-                }
+                CustomFloatingContent(onClickIdentifyTrash = onClickIdentifyTrash)
             }
 
         },
@@ -147,5 +139,5 @@ sealed class ScreensDashboard(val title: String, @DrawableRes val icon: Int) {
 @Preview
 @Composable
 private fun DashBoardScreenPrev() {
-    DashboardScreen(modifier = Modifier.fillMaxSize(), onClickMoreInfo = {})
+    DashboardScreen(modifier = Modifier.fillMaxSize(), onClickMoreInfo = {}, onClickIdentifyTrash = {})
 }

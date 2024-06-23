@@ -31,11 +31,18 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
             val context = LocalContext.current
             DashboardScreen(modifier = Modifier.fillMaxSize(), onClickMoreInfo = {
                 context.openUrlIntent("https://www.facebook.com/MunicipalidaddePichanaqui")
+            },
+                onClickIdentifyTrash = {
+                    controller.navigate(ScreensRoot.IdentifyTrashScreen)
             })
         }
 
         composable<ScreensRoot.MoreInfoScreen> {
             Text(text = "More info screen")
+        }
+
+        composable<ScreensRoot.IdentifyTrashScreen> {
+            Text(text = "Identify trash screen")
         }
 
     }
@@ -51,5 +58,8 @@ sealed class ScreensRoot{
 
     @Serializable
     data class MoreInfoScreen(val url: String) : ScreensRoot()
+
+    @Serializable
+    data object IdentifyTrashScreen : ScreensRoot()
 }
 
