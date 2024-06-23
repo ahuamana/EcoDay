@@ -1,6 +1,7 @@
 package com.ahuaman.ecoday.screens.composables
 
 import android.net.Uri
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -48,6 +49,7 @@ fun CustomFloatingContent(
         bitmap?.let { image->
             //TODO: Send image to server to identify trash
             //
+            Log.d("CustomFloatingContent", "Image captured: ${image.width}x${image.height}")
         }
     }
 

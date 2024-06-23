@@ -5,7 +5,4 @@
     <string name="get_started">Iniciar</string>
     <string name="see_more">Vér más información</string>
     <string name="identify_trash_description_home_screen">Identificar mi residuo</string>
-
-    <!--//e.g your package name + ".fileprovider"-->
-    <string name="fileprovider">com.ahuaman.ecoday.fileprovider</string>
 </resources>

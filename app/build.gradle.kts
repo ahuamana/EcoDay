@@ -80,5 +80,9 @@ dependencies {
     //coil
     implementation(libs.coil)
 
+    //AI Gemini
+
+    implementation(libs.generativeai)
+
 
 }
