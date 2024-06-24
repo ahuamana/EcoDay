@@ -13,6 +13,7 @@ import com.google.ai.client.generativeai.GenerativeModel
 import com.google.ai.client.generativeai.type.content
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -25,6 +26,8 @@ class DashboardViewModel @Inject constructor() : ViewModel() {
 
     private val handler = CoroutineExceptionHandler { _, exception ->
         println("Caught $exception")
+        val currentState = _intent.value
+        _intent.value = currentState.copy(dialogState = DialogState.ERROR)
     }
 
     private val _intent = MutableStateFlow(DashboardStates.default())
@@ -42,20 +45,19 @@ class DashboardViewModel @Inject constructor() : ViewModel() {
         }
     }
 
-    private suspend fun generateContentWithModel(bitmapUri: Bitmap, apiKey: String) = viewModelScope.launch(handler) {
+    private suspend fun generateContentWithModel(bitmapUri: Bitmap, apiKey: String) = viewModelScope.launch( Dispatchers.IO + handler) {
         val currentState = _intent.value
         val loading = currentState.copy(dialogState = DialogState.LOADING)
         _intent.value = loading
 
         withTimeoutOrNull(5000L){
             val model = GenerativeModel(
-                modelName = EDGenerativeModel.GEMINI_PRO_1_5.name,
+                modelName = EDGenerativeModel.GEMINI_PRO_1_5.value,
                 apiKey = apiKey
             )
-
             val inputContent = content {
                 image(bitmapUri)
-                text("his is organic or inoganic container, dont use the labels written on the item? The result give me on a JSON format. where include classification, type, percentage in the JSON -- \n" +
+                text("This is organic or inoganic container, dont use the labels written on the item? The result give me on a JSON format. where include classification, type, percentage in the JSON -- \n" +
                         "\n" +
                         "{\n" +
                         "\"classification\": \"\",\n" +

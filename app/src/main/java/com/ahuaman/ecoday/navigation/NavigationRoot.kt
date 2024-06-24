@@ -1,5 +1,6 @@
 package com.ahuaman.ecoday.navigation
 
+import android.graphics.Bitmap
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -13,6 +14,7 @@ import androidx.navigation.NavHost
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.ahuaman.ecoday.BuildConfig
 import com.ahuaman.ecoday.domain.dashboard.DashboardViewIntent
 import com.ahuaman.ecoday.screens.DashboardScreen
 import com.ahuaman.ecoday.screens.OnboardingScreen
@@ -43,7 +45,9 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                 modifier = Modifier.fillMaxSize(),
                 dashboardStates = states,
                 onClickMoreInfo = { context.openUrlIntent("https://www.facebook.com/MunicipalidaddePichanaqui") },
-                onIdentifyNewBitmap = { controller.navigate(ScreensRoot.IdentifyTrashScreen) },
+                onIdentifyNewBitmap = { bitmap: Bitmap ->
+                    viewModel.processIntent(DashboardViewIntent.IdentifyTrashIntent(bitmap, BuildConfig.API_KEY))
+                },
                 onDialogDismissError = {
                     viewModel.processIntent(DashboardViewIntent.CloseDialogIntent)
                 },
@@ -55,10 +59,6 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
 
         composable<ScreensRoot.MoreInfoScreen> {
             Text(text = "More info screen")
-        }
-
-        composable<ScreensRoot.IdentifyTrashScreen> {
-            Text(text = "Identify trash screen")
         }
 
     }
@@ -75,7 +75,5 @@ sealed class ScreensRoot{
     @Serializable
     data class MoreInfoScreen(val url: String) : ScreensRoot()
 
-    @Serializable
-    data object IdentifyTrashScreen : ScreensRoot()
 }
 
