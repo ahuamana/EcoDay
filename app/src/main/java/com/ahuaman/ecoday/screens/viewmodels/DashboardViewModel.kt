@@ -37,7 +37,7 @@ class DashboardViewModel @Inject constructor() : ViewModel() {
             }
             is DashboardViewIntent.CloseDialogIntent -> {
                 val currentState = _intent.value
-                _intent.value = currentState.copy(responseFromIA = intent.response, dialogState = DialogState.IDLE)
+                _intent.value = currentState.copy(dialogState = DialogState.IDLE)
             }
         }
     }
@@ -66,14 +66,11 @@ class DashboardViewModel @Inject constructor() : ViewModel() {
             val response = model.generateContent(inputContent)
             val responseText = response.text?.replace("\n", "")?.replace("\r", "")
             val responseGson = responseText?.substringAfter("{")?.substringBefore("}")?.fromJson<ResultContentIdentifyIA>()
-
-
-            _intent.value = currentState.copy(responseFromIA = responseText ?: "", dialogState = DialogState.SUCCESS)
-
-        } ?: run {
-            val currentState = _intent.value
-            _intent.value = currentState.copy(dialogState = DialogState.ERROR)
+            _intent.value = currentState.copy(responseIA = responseGson?: ResultContentIdentifyIA(), dialogState = DialogState.SUCCESS)
+        }.let { timeout ->
+            if (timeout == null) {
+                _intent.value = currentState.copy(dialogState = DialogState.ERROR)
+            }
         }
-
     }
 }

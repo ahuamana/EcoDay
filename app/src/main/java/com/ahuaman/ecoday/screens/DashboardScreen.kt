@@ -34,6 +34,8 @@ import com.ahuaman.ecoday.domain.dashboard.DashboardStates
 import com.ahuaman.ecoday.domain.dashboard.DialogState
 import com.ahuaman.ecoday.screens.composables.CustomFloatingContent
 import com.ahuaman.ecoday.screens.states.EcoDialogError
+import com.ahuaman.ecoday.screens.states.EcoDialogLoading
+import com.ahuaman.ecoday.screens.states.EcoDialogSuccess
 import kotlinx.serialization.Serializable
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -43,7 +45,8 @@ fun DashboardScreen(
     dashboardStates: DashboardStates,
     onClickMoreInfo: () -> Unit,
     onIdentifyNewBitmap: (Bitmap) -> Unit,
-    onDialogDismissError: () -> Unit
+    onDialogDismissError: () -> Unit,
+    onDialogSuccessDismiss: () -> Unit
     ) {
     var selectedItem by remember { mutableIntStateOf(0) }
     val items = ScreensDashboard.items
@@ -118,9 +121,16 @@ fun DashboardScreen(
             }
             DialogState.LOADING -> {
                 //Show loading dialog
+                EcoDialogLoading {
+                    //nothing to do
+                }
             }
             DialogState.SUCCESS -> {
                 //Show success dialog
+                EcoDialogSuccess(
+                    onDismissRequest = { onDialogSuccessDismiss() },
+                    result = dashboardStates.responseIA
+                )
             }
             DialogState.ERROR -> {
                 EcoDialogError {
@@ -156,5 +166,11 @@ sealed class ScreensDashboard(val title: String, @DrawableRes val icon: Int) {
 @Preview
 @Composable
 private fun DashBoardScreenPrev() {
-    DashboardScreen(modifier = Modifier.fillMaxSize(), onClickMoreInfo = {}, onIdentifyNewBitmap = {}, dashboardStates = DashboardStates.default(), onDialogDismissError = {})
+    DashboardScreen(modifier = Modifier.fillMaxSize(),
+        onClickMoreInfo = {},
+        onIdentifyNewBitmap = {},
+        dashboardStates = DashboardStates.default(),
+        onDialogDismissError = {},
+        onDialogSuccessDismiss = {}
+        )
 }

@@ -13,6 +13,7 @@ import androidx.navigation.NavHost
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.ahuaman.ecoday.domain.dashboard.DashboardViewIntent
 import com.ahuaman.ecoday.screens.DashboardScreen
 import com.ahuaman.ecoday.screens.OnboardingScreen
 import com.ahuaman.ecoday.screens.composables.WebViewComposable
@@ -43,7 +44,12 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                 dashboardStates = states,
                 onClickMoreInfo = { context.openUrlIntent("https://www.facebook.com/MunicipalidaddePichanaqui") },
                 onIdentifyNewBitmap = { controller.navigate(ScreensRoot.IdentifyTrashScreen) },
-                onDialogDismissError = {/*TODO: Implement this*/}
+                onDialogDismissError = {
+                    viewModel.processIntent(DashboardViewIntent.CloseDialogIntent)
+                },
+                onDialogSuccessDismiss = {
+                    viewModel.processIntent(DashboardViewIntent.CloseDialogIntent)
+                }
             )
         }
 
