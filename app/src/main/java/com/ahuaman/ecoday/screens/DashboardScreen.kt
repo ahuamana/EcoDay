@@ -2,6 +2,9 @@ package com.ahuaman.ecoday.screens
 
 import android.graphics.Bitmap
 import androidx.annotation.DrawableRes
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -32,6 +35,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.ahuaman.ecoday.R
+import com.ahuaman.ecoday.domain.dashboard.DashboardStates
+import com.ahuaman.ecoday.domain.dashboard.DialogState
 import com.ahuaman.ecoday.screens.composables.CustomFloatingContent
 import kotlinx.serialization.Serializable
 
@@ -39,6 +44,7 @@ import kotlinx.serialization.Serializable
 @Composable
 fun DashboardScreen(
     modifier: Modifier = Modifier,
+    dashboardStates: DashboardStates,
     onClickMoreInfo: () -> Unit,
     onIdentifyNewBitmap: (Bitmap) -> Unit
     ) {
@@ -46,67 +52,94 @@ fun DashboardScreen(
     val items = ScreensDashboard.items
     val navController = rememberNavController()
 
-    Scaffold(
-        topBar = {
-            TopAppBar(title = {
-                Text(
-                    text = items[selectedItem].title,
-                    style = MaterialTheme.typography.headlineMedium,
-                    fontFamily = FontFamily(Font(R.font.opensans_bold)))
-            })
-        },
+    Box(modifier = Modifier.fillMaxSize()) {
+        Scaffold(
+            topBar = {
+                TopAppBar(title = {
+                    Text(
+                        text = items[selectedItem].title,
+                        style = MaterialTheme.typography.headlineMedium,
+                        fontFamily = FontFamily(Font(R.font.opensans_bold)))
+                })
+            },
 
-        floatingActionButton = {
-            if(items[selectedItem] is ScreensDashboard.Home){
-                CustomFloatingContent(onNewPreviewCaptured = onIdentifyNewBitmap)
-            }
+            floatingActionButton = {
+                if(items[selectedItem] is ScreensDashboard.Home){
+                    CustomFloatingContent(onNewPreviewCaptured = onIdentifyNewBitmap)
+                }
 
-        },
+            },
 
-        bottomBar = {
+            bottomBar = {
 
-            val navBackStackEntry by navController.currentBackStackEntryAsState()
-            val currentDestination = navBackStackEntry?.destination
-            val selectedFromDestination = items.indexOfFirst { menu ->
-                (menu.javaClass.simpleName == currentDestination?.route?.split(".")?.last())
-            }
+                val navBackStackEntry by navController.currentBackStackEntryAsState()
+                val currentDestination = navBackStackEntry?.destination
+                val selectedFromDestination = items.indexOfFirst { menu ->
+                    (menu.javaClass.simpleName == currentDestination?.route?.split(".")?.last())
+                }
 
-            NavigationBar{
-                items.forEachIndexed { index, item ->
-                    val isSelected = if (selectedFromDestination == -1) index == 0 else index == selectedFromDestination
-                    val textColor = if (isSelected) { colorResource(id = R.color.green_primary) } else { Color.Gray }
-                    val iconColor = if (isSelected) colorResource(id = R.color.green_primary) else Color.Gray
+                NavigationBar{
+                    items.forEachIndexed { index, item ->
+                        val isSelected = if (selectedFromDestination == -1) index == 0 else index == selectedFromDestination
+                        val textColor = if (isSelected) { colorResource(id = R.color.green_primary) } else { Color.Gray }
+                        val iconColor = if (isSelected) colorResource(id = R.color.green_primary) else Color.Gray
 
-                    NavigationBarItem(
-                        icon = { Icon(painterResource(id = item.icon), contentDescription = item.title, tint = iconColor) },
-                        label = { Text(item.title, color = textColor) },
-                        selected = isSelected,
-                        onClick = {
-                            //avoid select the same item
-                            if (isSelected) return@NavigationBarItem
-                            selectedItem = index
-                            navController.navigate(item)
-                        }
-                    )
+                        NavigationBarItem(
+                            icon = { Icon(painterResource(id = item.icon), contentDescription = item.title, tint = iconColor) },
+                            label = { Text(item.title, color = textColor) },
+                            selected = isSelected,
+                            onClick = {
+                                //avoid select the same item
+                                if (isSelected) return@NavigationBarItem
+                                selectedItem = index
+                                navController.navigate(item)
+                            }
+                        )
+                    }
+                }
+            },
+            content = { innerPadding ->
+                NavHost(navController = navController, startDestination = ScreensDashboard.Home, modifier = modifier.padding(innerPadding)) {
+                    composable<ScreensDashboard.Home> {
+                        HomeScreen(modifier = Modifier.fillMaxSize())
+                    }
+                    composable<ScreensDashboard.Guide>{
+                        GuideScreen(modifier = Modifier.fillMaxSize(), onClickMoreInfo = {
+                            onClickMoreInfo()
+                        })
+                    }
+                    composable<ScreensDashboard.Notifications>{
+                        NotificationScreen(modifier = Modifier.fillMaxSize())
+                    }
                 }
             }
-        },
-        content = { innerPadding ->
-            NavHost(navController = navController, startDestination = ScreensDashboard.Home, modifier = modifier.padding(innerPadding)) {
-                composable<ScreensDashboard.Home> {
-                    HomeScreen(modifier = Modifier.fillMaxSize())
+        )
+
+        when(dashboardStates.dialogState){
+            DialogState.IDLE -> {
+                //Do nothing
+                Column(
+                    modifier = Modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(text = "Dialog state is idle")
+
                 }
-                composable<ScreensDashboard.Guide>{
-                    GuideScreen(modifier = Modifier.fillMaxSize(), onClickMoreInfo = {
-                        onClickMoreInfo()
-                    })
-                }
-                composable<ScreensDashboard.Notifications>{
-                    NotificationScreen(modifier = Modifier.fillMaxSize())
-                }
+            }
+            DialogState.LOADING -> {
+                //Show loading dialog
+            }
+            DialogState.SUCCESS -> {
+                //Show success dialog
+            }
+            DialogState.ERROR -> {
+                //Show error dialog
             }
         }
-    )
+
+    }
+
 }
 
 @Serializable
@@ -132,5 +165,5 @@ sealed class ScreensDashboard(val title: String, @DrawableRes val icon: Int) {
 @Preview
 @Composable
 private fun DashBoardScreenPrev() {
-    DashboardScreen(modifier = Modifier.fillMaxSize(), onClickMoreInfo = {}, onIdentifyNewBitmap = {})
+    DashboardScreen(modifier = Modifier.fillMaxSize(), onClickMoreInfo = {}, onIdentifyNewBitmap = {}, dashboardStates = DashboardStates.default())
 }
