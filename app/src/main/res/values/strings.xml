@@ -5,4 +5,7 @@
     <string name="get_started">Iniciar</string>
     <string name="see_more">Vér más información</string>
     <string name="identify_trash_description_home_screen">Identificar mi residuo</string>
+    <string name="error_message_dialog_error">Ha ocurrido un error. Por favor, inténtalo de nuevo más tarde</string>
+    <string name="button_title_error_dialog">Reintentar</string>
+    <string name="loading_message_dialog_loading">Cargando...</string>
 </resources>

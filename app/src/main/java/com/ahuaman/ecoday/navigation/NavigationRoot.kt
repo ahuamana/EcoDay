@@ -42,7 +42,9 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                 modifier = Modifier.fillMaxSize(),
                 dashboardStates = states,
                 onClickMoreInfo = { context.openUrlIntent("https://www.facebook.com/MunicipalidaddePichanaqui") },
-                onIdentifyNewBitmap = { controller.navigate(ScreensRoot.IdentifyTrashScreen) })
+                onIdentifyNewBitmap = { controller.navigate(ScreensRoot.IdentifyTrashScreen) },
+                onDialogDismissError = {/*TODO: Implement this*/}
+            )
         }
 
         composable<ScreensRoot.MoreInfoScreen> {

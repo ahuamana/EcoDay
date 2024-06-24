@@ -2,9 +2,7 @@ package com.ahuaman.ecoday.screens
 
 import android.graphics.Bitmap
 import androidx.annotation.DrawableRes
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -20,16 +18,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -38,6 +33,7 @@ import com.ahuaman.ecoday.R
 import com.ahuaman.ecoday.domain.dashboard.DashboardStates
 import com.ahuaman.ecoday.domain.dashboard.DialogState
 import com.ahuaman.ecoday.screens.composables.CustomFloatingContent
+import com.ahuaman.ecoday.screens.states.EcoDialogError
 import kotlinx.serialization.Serializable
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -46,7 +42,8 @@ fun DashboardScreen(
     modifier: Modifier = Modifier,
     dashboardStates: DashboardStates,
     onClickMoreInfo: () -> Unit,
-    onIdentifyNewBitmap: (Bitmap) -> Unit
+    onIdentifyNewBitmap: (Bitmap) -> Unit,
+    onDialogDismissError: () -> Unit
     ) {
     var selectedItem by remember { mutableIntStateOf(0) }
     val items = ScreensDashboard.items
@@ -117,15 +114,7 @@ fun DashboardScreen(
 
         when(dashboardStates.dialogState){
             DialogState.IDLE -> {
-                //Do nothing
-                Column(
-                    modifier = Modifier.fillMaxSize(),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Text(text = "Dialog state is idle")
 
-                }
             }
             DialogState.LOADING -> {
                 //Show loading dialog
@@ -134,7 +123,9 @@ fun DashboardScreen(
                 //Show success dialog
             }
             DialogState.ERROR -> {
-                //Show error dialog
+                EcoDialogError {
+                    onDialogDismissError()
+                }
             }
         }
 
@@ -165,5 +156,5 @@ sealed class ScreensDashboard(val title: String, @DrawableRes val icon: Int) {
 @Preview
 @Composable
 private fun DashBoardScreenPrev() {
-    DashboardScreen(modifier = Modifier.fillMaxSize(), onClickMoreInfo = {}, onIdentifyNewBitmap = {}, dashboardStates = DashboardStates.default())
+    DashboardScreen(modifier = Modifier.fillMaxSize(), onClickMoreInfo = {}, onIdentifyNewBitmap = {}, dashboardStates = DashboardStates.default(), onDialogDismissError = {})
 }
