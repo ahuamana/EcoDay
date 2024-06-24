@@ -72,7 +72,7 @@ fun EcoDialogSuccess(
                                 Spacer(modifier = Modifier.padding(8.dp))
                                 HorizontalTwoComponentsItem("Material", result.classification?:"")
                                 Spacer(modifier = Modifier.padding(8.dp))
-                                HorizontalTwoComponentsItem("Tipo", result.classification?:"")
+                                HorizontalTwoComponentsItem("Tipo", result.type?:"")
                                 Spacer(modifier = Modifier.padding(8.dp))
                                 HorizontalTwoComponentsItem("Porcentaje", result.percentage?:"")
                             }

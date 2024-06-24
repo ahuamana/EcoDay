@@ -1,8 +1,10 @@
 package com.ahuaman.ecoday.screens.viewmodels
 
 import android.graphics.Bitmap
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ahuaman.ecoday.BuildConfig
 import com.ahuaman.ecoday.domain.EDGenerativeModel
 import com.ahuaman.ecoday.domain.ResultContentIdentifyIA
 import com.ahuaman.ecoday.domain.dashboard.DashboardStates
@@ -45,19 +47,20 @@ class DashboardViewModel @Inject constructor() : ViewModel() {
         }
     }
 
-    private suspend fun generateContentWithModel(bitmapUri: Bitmap, apiKey: String) = viewModelScope.launch( Dispatchers.IO + handler) {
+    private suspend fun generateContentWithModel(bitmap: Bitmap, apiKey: String) = viewModelScope.launch( Dispatchers.IO + handler) {
         val currentState = _intent.value
         val loading = currentState.copy(dialogState = DialogState.LOADING)
         _intent.value = loading
 
         withTimeoutOrNull(5000L){
+
             val model = GenerativeModel(
                 modelName = EDGenerativeModel.GEMINI_PRO_1_5.value,
-                apiKey = apiKey
+                apiKey = BuildConfig.API_KEY
             )
             val inputContent = content {
-                image(bitmapUri)
-                text("This is organic or inoganic container, dont use the labels written on the item? The result give me on a JSON format. where include classification, type, percentage in the JSON -- \n" +
+                image(bitmap)
+                text("his is organic or inoganic container, dont use the labels written on the item? The result give me on a JSON format and in Spanish. where include classification, type, percentage in the JSON format like this-- \n" +
                         "\n" +
                         "{\n" +
                         "\"classification\": \"\",\n" +
@@ -66,8 +69,11 @@ class DashboardViewModel @Inject constructor() : ViewModel() {
                         "} \n -- IMPRINT IN ONE LINE\n" )
             }
             val response = model.generateContent(inputContent)
+            Log.d("response", response.text?:"")
             val responseText = response.text?.replace("\n", "")?.replace("\r", "")
-            val responseGson = responseText?.substringAfter("{")?.substringBefore("}")?.fromJson<ResultContentIdentifyIA>()
+            val responseGson = responseText?.fromJson<ResultContentIdentifyIA>()
+
+            Log.d("responseGson", responseGson.toString())
             _intent.value = currentState.copy(responseIA = responseGson?: ResultContentIdentifyIA(), dialogState = DialogState.SUCCESS)
         }.let { timeout ->
             if (timeout == null) {
