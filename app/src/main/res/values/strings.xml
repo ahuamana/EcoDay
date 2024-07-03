@@ -3,4 +3,11 @@
     <string name="welcome_message_onboarding">Bienvenido a\nEcoDay!</string>
     <string name="onboarding_description">Tu camino hacia un estilo de vida sostenible y ecológico comienza aquí. Únete a una comunidad dedicada a hacer un impacto positivo en el planeta. ¡Demos juntos pasos significativos!</string>
     <string name="get_started">Iniciar</string>
+    <string name="see_more">Vér más información</string>
+    <string name="identify_trash_description_home_screen">Identificar mi residuo</string>
+    <string name="error_message_dialog_error">Ha ocurrido un error. Por favor, inténtalo de nuevo más tarde</string>
+    <string name="button_title_error_dialog">Reintentar</string>
+    <string name="loading_message_dialog_loading">Cargando...</string>
+    <string name="button_title_success_dialog">Continuar</string>
+    <string name="take_care_the_environment_description">¡Cuidemos el medio ambiente!</string>
 </resources>
