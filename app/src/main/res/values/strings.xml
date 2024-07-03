@@ -9,4 +9,5 @@
     <string name="button_title_error_dialog">Reintentar</string>
     <string name="loading_message_dialog_loading">Cargando...</string>
     <string name="button_title_success_dialog">Continuar</string>
+    <string name="take_care_the_environment_description">¡Cuidemos el medio ambiente!</string>
 </resources>
