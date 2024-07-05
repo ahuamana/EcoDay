@@ -1,6 +1,7 @@
 package com.ahuaman.ecoday.screens.composables
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -37,6 +38,9 @@ fun CustomCardOrganic(
 
 @Composable
 private fun CardContentOrganic(item: ItemDayInformation) {
+
+    val isDarkTheme = isSystemInDarkTheme()
+
     Column {
         Text(
             text = item.day,
@@ -64,7 +68,7 @@ private fun CardContentOrganic(item: ItemDayInformation) {
             text = "8:00am - 6:00pm",
             modifier = Modifier.fillMaxWidth(),
             textAlign = TextAlign.Center,
-            color = Color.Black,
+            color = if(isDarkTheme) Color.White else colorResource(id = R.color.black),
             fontFamily = FontFamily(Font(R.font.opensans_regular)),
             fontSize = 16.sp
         )
