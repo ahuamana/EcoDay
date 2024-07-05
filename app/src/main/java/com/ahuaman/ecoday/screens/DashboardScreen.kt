@@ -64,7 +64,7 @@ fun DashboardScreen(
             },
 
             floatingActionButton = {
-                if(items[selectedItem] is ScreensDashboard.Home){
+                if(items[selectedItem] is ScreensDashboard.Guide){
                     CustomFloatingContent(onNewPreviewCaptured = onIdentifyNewBitmap)
                 }
 

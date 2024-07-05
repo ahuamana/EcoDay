@@ -77,7 +77,7 @@ private fun CardContentOrganic(item: ItemDayInformation) {
             painter = painterResource(id = R.drawable.ic_organic_trash_can),
             contentDescription = null)
 
-        Spacer(modifier = Modifier.height(57.dp))
+        Spacer(modifier = Modifier.height(10.dp))
 
         Row(
             modifier = Modifier.fillMaxWidth(),

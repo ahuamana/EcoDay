@@ -131,6 +131,8 @@ fun TabRow(
                                      onClickMoreInfo()
                                  }
                            )
+
+                           Spacer(modifier = Modifier.height(28.dp))
                        }
                     }
                     1 -> {
