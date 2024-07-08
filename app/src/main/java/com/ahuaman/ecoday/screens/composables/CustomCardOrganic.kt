@@ -24,6 +24,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ahuaman.ecoday.R
+import com.ahuaman.ecoday.domain.home.DayInfo
+import com.ahuaman.ecoday.domain.home.EDWeekDay
 import com.ahuaman.ecoday.domain.home.ItemDayInformation
 
 @Composable
@@ -115,6 +117,9 @@ private fun CustomCardOrganicAndInorganicPrev() {
     val item = ItemDayInformation(
         day = "Lunes",
         isOrganic = true,
+        week = DayInfo(
+            weekDay = EDWeekDay.WEDNESDAY
+        )
     )
 
     CustomCardOrganic(modifier = Modifier.fillMaxWidth(),item = item)

@@ -40,21 +40,25 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
 import com.ahuaman.ecoday.data.FakeItemsDays
+import com.ahuaman.ecoday.domain.dashboard.DashboardStates
 import com.ahuaman.ecoday.domain.home.ItemDayInformation
+import com.ahuaman.ecoday.utils.UtilsDay
 import kotlin.math.absoluteValue
 
 @Composable
 fun SliderImageComposableWithScaleAnim(
-    list: List<ItemDayInformation>
+    list: List<ItemDayInformation>,
+    dashboardStates: DashboardStates,
 ) {
+
     val pageCount by remember {
         mutableStateOf(list)
     }
 
     val pagerState = rememberPagerState(
         initialPageOffsetFraction = 0f,
-        initialPage = 0,
-        pageCount = { pageCount.size }
+        pageCount = { pageCount.size },
+        initialPage = dashboardStates.indexPagerHome,
     )
 
     Column(
@@ -103,6 +107,7 @@ fun SliderImageComposableWithScaleAnim(
                     .clip(RoundedCornerShape(10.dp))
                     .shadow(10.dp, shape = RoundedCornerShape(10.dp)),
             ){
+
                 if(pageCount[page].isOrganic)
                     CustomCardOrganic(item = pageCount[page])
                 else
@@ -150,6 +155,7 @@ fun EllipsisIndicator(
 @Preview
 @Composable
 private fun SliderImageComposableWithScaleAnimPrev() {
-    SliderImageComposableWithScaleAnim(FakeItemsDays.getDays())
+
+    SliderImageComposableWithScaleAnim(FakeItemsDays.getDays(), DashboardStates.default())
 
 }

@@ -101,7 +101,7 @@ fun DashboardScreen(
             content = { innerPadding ->
                 NavHost(navController = navController, startDestination = ScreensDashboard.Home, modifier = modifier.padding(innerPadding)) {
                     composable<ScreensDashboard.Home> {
-                        HomeScreen(modifier = Modifier.fillMaxSize())
+                        HomeScreen(modifier = Modifier.fillMaxSize(), dashboardStates)
                     }
                     composable<ScreensDashboard.Guide>{
                         GuideScreen(modifier = Modifier.fillMaxSize(), onClickMoreInfo = {
