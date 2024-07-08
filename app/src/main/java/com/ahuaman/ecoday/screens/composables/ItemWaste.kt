@@ -1,6 +1,7 @@
 package com.ahuaman.ecoday.screens.composables
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -8,11 +9,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.material3.AssistChip
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -20,6 +16,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -65,36 +62,36 @@ fun ItemDays(
     modifier: Modifier = Modifier,
     days: String,
     time: String,
-    isVisibleHours: Boolean = false,
+    isVisibleHours: Boolean = true,
     isVisibleMoreInfo: Boolean = false,
     icon: Int = R.drawable.ic_recycle_trash,
     onClickMoreInfo: () -> Unit
 ) {
     val context = LocalContext.current
+    val isDarkTheme = isSystemInDarkTheme()
+    val colorTheme = if(isDarkTheme) colorResource(id = R.color.white) else colorResource(id = R.color.black)
 
     Row(modifier = modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-        Column {
-
-
+        Column(modifier = Modifier.padding(8.dp)) {
             Column {
                 Row {
-                    Button(onClick = { /*TODO*/ }, colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.green_primary))) {
-                        Row{
-                            Icon(painter = painterResource(id = R.drawable.ic_calendar), contentDescription = null)
-                            Spacer(modifier = Modifier.padding(4.dp))
-                            Text(text = days)
-                        }
-                    }
-                    //Text(text = days, fontSize = 12.sp, fontFamily = FontFamily(Font(R.font.opensans_regular)))
-                }
-                if(isVisibleHours) Text(text = time,fontSize = 12.sp, fontFamily = FontFamily(Font(R.font.opensans_regular)))
-                Spacer(modifier = Modifier.height(12.dp))
+                    Icon(painter = painterResource(id = R.drawable.ic_calendar), contentDescription = null, tint = colorTheme, modifier = Modifier.align(Alignment.CenterVertically))
+                    Spacer(modifier = Modifier.padding(4.dp))
+                    Column {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
 
-                Button(onClick = {
-                    onClickMoreInfo()
-                }) {
-                    UnderlinedText(text = stringResource(id = R.string.see_more))
+                            Text(text = days, color = colorTheme, fontFamily = FontFamily(Font(R.font.opensans_regular)), fontSize = 12.sp)
+                        }
+                        Column {
+
+                        }
+                        if(isVisibleHours) Text(text = time,fontSize = 12.sp, fontFamily = FontFamily(Font(R.font.opensans_regular)))
+
+                    }
                 }
+
+                Spacer(modifier = Modifier.padding(4.dp))
+                UnderlinedText(text = stringResource(id = R.string.see_more))
 
             }
         }
@@ -105,10 +102,15 @@ fun ItemDays(
 
 @Composable
 fun UnderlinedText(text: String) {
+    val isDarkTheme = isSystemInDarkTheme()
+    val colorTheme = if(isDarkTheme) colorResource(id = R.color.white) else colorResource(id = R.color.black)
+
     Text(
         text = text,
         fontFamily = FontFamily(Font(R.font.opensans_semibold)),
-        style = TextStyle(textDecoration = TextDecoration.Underline)
+        style = TextStyle(textDecoration = TextDecoration.Underline),
+        color = colorTheme,
+        fontSize = 14.sp
     )
 }
 

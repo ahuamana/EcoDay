@@ -13,6 +13,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExtendedFloatingActionButton
+import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -22,10 +24,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.content.FileProvider
 import com.ahuaman.ecoday.BuildConfig
@@ -68,8 +72,8 @@ fun CustomFloatingContent(
         modifier = Modifier
             .padding(16.dp)
     ) {
-        Button(
-            colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.green_primary)),
+        ExtendedFloatingActionButton(
+            containerColor = colorResource(id = R.color.green_primary),
             onClick = {
                 checkCameraPermission(context, onPermissionSuccess = {
                     cameraLauncher.launch(null)
@@ -78,11 +82,17 @@ fun CustomFloatingContent(
                 })
             }) {
             Row {
-                Text(stringResource(R.string.identify_trash_description_home_screen), style = MaterialTheme.typography.bodyMedium)
+                Text(stringResource(R.string.identify_trash_description_home_screen), style = MaterialTheme.typography.bodyMedium, color = Color.White)
                 Spacer(modifier = Modifier.width(4.dp))
-                Icon(painterResource(id = R.drawable.ic_camera_identify), contentDescription = "Favorite")
+                Icon(painterResource(id = R.drawable.ic_camera_identify), contentDescription = "Favorite", tint = Color.White)
             }
         }
 
     }
+}
+
+@Preview
+@Composable
+private fun CustomFloatingContentPrev() {
+    CustomFloatingContent(onNewPreviewCaptured = {})
 }
