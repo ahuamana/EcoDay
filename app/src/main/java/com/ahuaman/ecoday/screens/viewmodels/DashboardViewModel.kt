@@ -60,7 +60,7 @@ class DashboardViewModel @Inject constructor() : ViewModel() {
             )
             val inputContent = content {
                 image(bitmap)
-                text("his is organic or inoganic container, dont use the labels written on the item? The result give me on a JSON format and in Spanish. where include classification, type, percentage in the JSON format like this-- \n" +
+                text("This is organic or inoganic container, dont use the labels written on the item? The result give me on a JSON format and in Spanish. where include classification, type, percentage in the JSON format like this-- \n" +
                         "\n" +
                         "{\n" +
                         "\"classification\": \"\",\n" +

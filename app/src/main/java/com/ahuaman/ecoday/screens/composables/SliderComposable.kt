@@ -41,8 +41,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
 import com.ahuaman.ecoday.data.FakeItemsDays
 import com.ahuaman.ecoday.domain.dashboard.DashboardStates
+import com.ahuaman.ecoday.domain.home.DayInfo
+import com.ahuaman.ecoday.domain.home.EDWeekDay
 import com.ahuaman.ecoday.domain.home.ItemDayInformation
 import com.ahuaman.ecoday.utils.UtilsDay
+import java.time.DayOfWeek
 import kotlin.math.absoluteValue
 
 @Composable
@@ -108,10 +111,18 @@ fun SliderImageComposableWithScaleAnim(
                     .shadow(10.dp, shape = RoundedCornerShape(10.dp)),
             ){
 
-                if(pageCount[page].isOrganic)
-                    CustomCardOrganic(item = pageCount[page])
-                else
-                CustomCardUnOrganic(item = pageCount[page])
+                when(pageCount[page].week.weekDay){
+                    EDWeekDay.SUNDAY -> {
+                        CustomCardNone(itemDayInformation = pageCount[page])
+                    }
+                    else -> {
+                        if(pageCount[page].isOrganic)
+                            CustomCardOrganic(item = pageCount[page])
+                        else
+                            CustomCardUnOrganic(item = pageCount[page])
+                    }
+                }
+
 
             }
         }

@@ -14,6 +14,7 @@ object FakeItemsDays {
             ItemDayInformation(EDWeekDay.THURSDAY.dayName, false, DayInfo(EDWeekDay.THURSDAY)),
             ItemDayInformation(EDWeekDay.FRIDAY.dayName, true, DayInfo(EDWeekDay.FRIDAY)),
             ItemDayInformation(EDWeekDay.SATURDAY.dayName, false, DayInfo(EDWeekDay.SATURDAY)),
+            ItemDayInformation(EDWeekDay.SUNDAY.dayName, true, DayInfo(EDWeekDay.SUNDAY))
         )
     }
 }
