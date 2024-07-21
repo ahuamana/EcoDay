@@ -41,6 +41,7 @@ android {
             buildConfigField("String", "API_KEY", "\"$apiKey\"")
         }
         release {
+            buildConfigField("String", "API_KEY", "\"$apiKey\"")
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
