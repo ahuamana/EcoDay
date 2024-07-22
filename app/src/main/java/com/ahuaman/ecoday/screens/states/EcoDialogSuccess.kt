@@ -74,7 +74,7 @@ fun EcoDialogSuccess(
                                 Spacer(modifier = Modifier.padding(8.dp))
                                 HorizontalTwoComponentsItem("Tipo", result.type?:"")
                                 Spacer(modifier = Modifier.padding(8.dp))
-                                HorizontalTwoComponentsItem("Porcentaje", result.percentage?:"")
+                                HorizontalTwoComponentsItem("Confiabilidad", result.percentage?:"")
                             }
                         }
                         Spacer(modifier = Modifier.padding(8.dp))
