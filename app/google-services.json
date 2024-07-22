@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "444199744347",
+    "project_id": "ecoday-ec9aa",
+    "storage_bucket": "ecoday-ec9aa.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:444199744347:android:4aa45cebe4a65035c7207e",
+        "android_client_info": {
+          "package_name": "com.ahuaman.ecoday"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA8Y2C_4GVLQx-fWt7zrNnFAx8rue0f-FU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
