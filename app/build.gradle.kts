@@ -23,14 +23,14 @@ val apiKey: String? = localProperties.getProperty("API_KEY")
 
 android {
     namespace = "com.ahuaman.ecoday"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.ahuaman.ecoday"
         minSdk = 26
         targetSdk = 35
-        versionCode = 8
-        versionName = "1.0.5"
+        versionCode = 9
+        versionName = "1.2.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
