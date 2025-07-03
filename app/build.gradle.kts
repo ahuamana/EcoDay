@@ -28,7 +28,7 @@ android {
     defaultConfig {
         applicationId = "com.ahuaman.ecoday"
         minSdk = 26
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 8
         versionName = "1.0.5"
 
