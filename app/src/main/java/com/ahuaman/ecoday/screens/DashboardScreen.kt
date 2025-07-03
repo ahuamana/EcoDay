@@ -2,14 +2,18 @@ package com.ahuaman.ecoday.screens
 
 import android.graphics.Bitmap
 import androidx.annotation.DrawableRes
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarDefaults
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -25,6 +29,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -71,7 +76,6 @@ fun DashboardScreen(
             },
 
             bottomBar = {
-
                 val navBackStackEntry by navController.currentBackStackEntryAsState()
                 val currentDestination = navBackStackEntry?.destination
                 val selectedFromDestination = items.indexOfFirst { menu ->
@@ -85,7 +89,13 @@ fun DashboardScreen(
                         val iconColor = if (isSelected) colorResource(id = R.color.green_primary) else Color.Gray
 
                         NavigationBarItem(
-                            icon = { Icon(painterResource(id = item.icon), contentDescription = item.title, tint = iconColor) },
+                            modifier = Modifier.background(Color.Transparent),
+                            colors =  NavigationBarItemDefaults.colors(
+                                indicatorColor = colorResource(id = android.R.color.transparent)
+                            ),
+                            icon = {
+                                if(!isSelected) Icon(painterResource(id = item.icon), contentDescription = item.title, tint = iconColor)
+                            },
                             label = { Text(item.title, color = textColor) },
                             selected = isSelected,
                             onClick = {
