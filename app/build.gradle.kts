@@ -23,12 +23,12 @@ val apiKey: String? = localProperties.getProperty("API_KEY")
 
 android {
     namespace = "com.ahuaman.ecoday"
-    compileSdk = 34
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.ahuaman.ecoday"
         minSdk = 26
-        targetSdk = 34
+        targetSdk = 36
         versionCode = 4
         versionName = "1.0.3"
 

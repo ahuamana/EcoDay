@@ -74,6 +74,5 @@ sealed class ScreensRoot{
 
     @Serializable
     data class MoreInfoScreen(val url: String) : ScreensRoot()
-
 }
 
