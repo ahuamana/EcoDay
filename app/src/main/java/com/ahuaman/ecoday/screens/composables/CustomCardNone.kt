@@ -52,7 +52,7 @@ private fun CardContentNone(itemDayInformation: ItemDayInformation) {
             modifier = Modifier.fillMaxSize()) {
 
             Text(
-                text = itemDayInformation.week.weekDay.name,
+                text = itemDayInformation.week.weekDay.dayName,
                 modifier = Modifier.fillMaxWidth(),
                 textAlign = TextAlign.Center,
                 color = colorResource(id = R.color.black),
